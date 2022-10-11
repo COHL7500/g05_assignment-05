@@ -34,9 +34,20 @@ public class ProgramTests
                     SellIn = 5,
                     Quality = 30
                 },
-				
-                // this conjured item does not work properly yet
-				new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
+                
+                new()
+                {
+                    Name = "Conjured Mana Cake", 
+                    SellIn = 3, 
+                    Quality = 6
+                },
+                
+                new()
+                {
+                    Name = "Conjured Mana Biscuit", 
+                    SellIn = 2, 
+                    Quality = 1
+                }
                                           };
     }
 
@@ -158,13 +169,41 @@ public class ProgramTests
     }
     
     [Fact]
+    public void UpdateConjuredQuality()
+    {
+        // Given
+        var expected = new Item
+        {
+            Name = "Conjured Mana Cake",
+            SellIn = 2,
+            Quality = 4
+        };
+        
+        var expected2 = new Item
+        {
+            Name = "Conjured Mana Biscuit",
+            SellIn = 1,
+            Quality = 0
+        };
+        
+        // When
+        Program.UpdateQuality(_items);
+        // Then
+        _items[8].Quality.Should().Be(expected.Quality);
+        _items[8].SellIn.Should().Be(expected.SellIn);
+        
+        _items[9].Quality.Should().Be(expected2.Quality);
+        _items[9].SellIn.Should().Be(expected2.SellIn);   
+    }
+    
+    [Fact]
     public void TestConsoleOutput()
     {
         // Given
         using var writer =  new StringWriter();
         Console.SetOut(writer);
         // When
-        Program.Main(new String [0]);
+        Program.Main(Array.Empty<string>());
         var output = writer.GetStringBuilder().ToString();  
         // Then
         output.Length.Should().Be(File.ReadAllText("../../../output.txt").Length);
