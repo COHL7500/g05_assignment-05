@@ -37,7 +37,6 @@
 				// this conjured item does not work properly yet
 				new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
                                           }
-
             };
 
             for (var i = 0; i < 31; i++)
@@ -62,7 +61,11 @@
                 {
                     if (t.Quality > 0)
                     {
-                        if (t.Name != "Sulfuras, Hand of Ragnaros")
+                        if (t.Name.Contains("Conjured") && t.Quality > 1)
+                        {
+                            t.Quality -= 2;
+                        }
+                        else if (t.Name != "Sulfuras, Hand of Ragnaros")
                         {
                             t.Quality -= 1;
                         }
@@ -100,31 +103,27 @@
                     t.SellIn -= 1;
                 }
 
-                if (t.SellIn < 0)
+                if (t.SellIn >= 0) continue;
+                if (t.Name != "Aged Brie")
                 {
-                    if (t.Name != "Aged Brie")
+                    if (t.Name != "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        if (t.Name != "Backstage passes to a TAFKAL80ETC concert")
+                        if (t.Quality <= 0) continue;
+                        if (t.Name != "Sulfuras, Hand of Ragnaros")
                         {
-                            if (t.Quality > 0)
-                            {
-                                if (t.Name != "Sulfuras, Hand of Ragnaros")
-                                {
-                                    t.Quality -= 1;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            t.Quality -= t.Quality;
+                            t.Quality -= 1;
                         }
                     }
                     else
                     {
-                        if (t.Quality < 50)
-                        {
-                            t.Quality += 1;
-                        }
+                        t.Quality -= t.Quality;
+                    }
+                }
+                else
+                {
+                    if (t.Quality < 50)
+                    {
+                        t.Quality += 1;
                     }
                 }
             }
