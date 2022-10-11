@@ -2,37 +2,41 @@ namespace GildedRose.Tests;
 
 public class ProgramTests
 {
-    private List<Item> Items;
+    private readonly List<Item> _items;
    
     public ProgramTests()
     {
-        Items = new List<Item>
+        _items = new List<Item>
                                           {
                 new() { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
                 new() { Name = "Aged Brie", SellIn = 2, Quality = 0 },
                 new() { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
                 new() { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
                 new() { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 },
+                
                 new()
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 15,
                     Quality = 20
                 },
+                
                 new()
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 10,
                     Quality = 30
                 },
+                
                 new()
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 5,
                     Quality = 30
                 },
-				// this conjured item does not work properly yet
-				new Item { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
+				
+                // this conjured item does not work properly yet
+				new() { Name = "Conjured Mana Cake", SellIn = 3, Quality = 6 }
                                           };
     }
 
@@ -42,10 +46,10 @@ public class ProgramTests
         // Given
         var expected = new Item { Name = "+5 Dexterity Vest", SellIn = 9, Quality = 19 };
         // When
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
         // Then
-        Items[0].Quality.Should().Be(expected.Quality);
-        Items[0].SellIn.Should().Be(expected.SellIn);
+        _items[0].Quality.Should().Be(expected.Quality);
+        _items[0].SellIn.Should().Be(expected.SellIn);
     }
     [Fact]
     public void UpdateQualityElixer()
@@ -53,10 +57,10 @@ public class ProgramTests
         // Given
         var expected = new Item { Name = "Elixir of the Mongoose", SellIn = 4, Quality = 6 };
         // When
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
         // Then
-        Items[2].Quality.Should().Be(expected.Quality);
-        Items[2].SellIn.Should().Be(expected.SellIn);
+        _items[2].Quality.Should().Be(expected.Quality);
+        _items[2].SellIn.Should().Be(expected.SellIn);
     }
     [Fact]
     public void UpdateQualityAgedBrie()
@@ -64,11 +68,11 @@ public class ProgramTests
         // Given
         var expected = new Item { Name = "Aged Brie", SellIn = 1, Quality = 1 };
         // When
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
         
         // Then
-        Items[1].Quality.Should().Be(expected.Quality);
-        Items[1].SellIn.Should().Be(expected.SellIn);
+        _items[1].Quality.Should().Be(expected.Quality);
+        _items[1].SellIn.Should().Be(expected.SellIn);
     }
 
     [Fact]
@@ -77,13 +81,13 @@ public class ProgramTests
         // Given
         var expected = new Item { Name = "Aged Brie", SellIn = -1, Quality = 4 };
         // When
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
         
         // Then
-        Items[1].Quality.Should().Be(expected.Quality);
-        Items[1].SellIn.Should().Be(expected.SellIn);
+        _items[1].Quality.Should().Be(expected.Quality);
+        _items[1].SellIn.Should().Be(expected.SellIn);
     }
     [Fact]
     public void UpdateSulfurasTest()
@@ -91,10 +95,10 @@ public class ProgramTests
         // Given
         var expected = new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 }; 
         // When
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
         // Then
-        Items[3].Quality.Should().Be(expected.Quality);
-        Items[3].SellIn.Should().Be(expected.SellIn);
+        _items[3].Quality.Should().Be(expected.Quality);
+        _items[3].SellIn.Should().Be(expected.SellIn);
     }
 
     [Fact]
@@ -120,16 +124,17 @@ public class ProgramTests
                     Quality = 33
                 };
         // When
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
         
         // Then
-        Items[5].Quality.Should().Be(expected1.Quality);
-        Items[5].SellIn.Should().Be(expected1.SellIn);
-        Items[6].Quality.Should().Be(expected2.Quality);
-        Items[6].SellIn.Should().Be(expected2.SellIn);
-        Items[7].Quality.Should().Be(expected3.Quality);
-        Items[7].SellIn.Should().Be(expected3.SellIn);
+        _items[5].Quality.Should().Be(expected1.Quality);
+        _items[5].SellIn.Should().Be(expected1.SellIn);
+        _items[6].Quality.Should().Be(expected2.Quality);
+        _items[6].SellIn.Should().Be(expected2.SellIn);
+        _items[7].Quality.Should().Be(expected3.Quality);
+        _items[7].SellIn.Should().Be(expected3.SellIn);
     }
+    
     [Fact]
     public void UpdateTicketQuality0WhenSellinIsPassedDate()
     {
@@ -141,16 +146,17 @@ public class ProgramTests
             Quality = 0
         };
         // When
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
-        Program.UpdateQuality(Items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
+        Program.UpdateQuality(_items);
         // Then
-        Items[7].Quality.Should().Be(expected3.Quality);
-        Items[7].SellIn.Should().Be(expected3.SellIn);   
+        _items[7].Quality.Should().Be(expected3.Quality);
+        _items[7].SellIn.Should().Be(expected3.SellIn);   
     }
+    
     [Fact]
     public void TestConsoleOutput()
     {
