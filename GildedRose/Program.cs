@@ -52,56 +52,75 @@
             }
 
         }
+        
+        private static void UpdateSellIn(Item item)
+        {
+            if (item.Name != "Sulfuras, Hand of Ragnaros")
+            {
+                item.SellIn -= 1;
+            }
+        }
 
-        public static void UpdateQuality(IList<Item> inItems)
+        private static void UpdateNormalItemQuality(Item item)
+        {
+            if (item.Quality <= 0) return;
+            
+            if (item.Name.Contains("Conjured") && item.Quality > 1)
+            {
+                item.Quality -= 2;
+            }
+            else if (item.Name != "Sulfuras, Hand of Ragnaros")
+            {
+                item.Quality -= 1;
+            }
+        }
+        
+        private static void UpdateBackstagePassItemQuality(Item item)
+        {
+            if (item.SellIn < 11)
+            {
+                if (item.Quality < 50)
+                {
+                    item.Quality += 1;
+                }
+            }
+
+            if (item.SellIn >= 6) return;
+            
+            if (item.Quality < 50)
+            {
+                item.Quality += 1;
+            }
+        }
+
+        private static void UpdateBrieItemQuality(Item item)
+        {
+            if (item.Quality < 50)
+            {
+                item.Quality += 1;
+            }
+        }
+
+        public static void UpdateQuality(IEnumerable<Item> inItems)
         {
             foreach (var t in inItems)
             {
                 if (t.Name != "Aged Brie" && t.Name != "Backstage passes to a TAFKAL80ETC concert")
                 {
-                    if (t.Quality > 0)
-                    {
-                        if (t.Name.Contains("Conjured") && t.Quality > 1)
-                        {
-                            t.Quality -= 2;
-                        }
-                        else if (t.Name != "Sulfuras, Hand of Ragnaros")
-                        {
-                            t.Quality -= 1;
-                        }
-                    }
+                    UpdateNormalItemQuality(t);
                 }
-                else
+                
+                else if (t.Quality < 50)
                 {
-                    if (t.Quality < 50)
+                    t.Quality += 1;
+
+                    if (t.Name == "Backstage passes to a TAFKAL80ETC concert")
                     {
-                        t.Quality += 1;
-
-                        if (t.Name == "Backstage passes to a TAFKAL80ETC concert")
-                        {
-                            if (t.SellIn < 11)
-                            {
-                                if (t.Quality < 50)
-                                {
-                                    t.Quality += 1;
-                                }
-                            }
-
-                            if (t.SellIn < 6)
-                            {
-                                if (t.Quality < 50)
-                                {
-                                    t.Quality += 1;
-                                }
-                            }
-                        }
+                        UpdateBackstagePassItemQuality(t);
                     }
                 }
 
-                if (t.Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    t.SellIn -= 1;
-                }
+                UpdateSellIn(t);
 
                 if (t.SellIn >= 0) continue;
                 if (t.Name != "Aged Brie")
@@ -121,10 +140,7 @@
                 }
                 else
                 {
-                    if (t.Quality < 50)
-                    {
-                        t.Quality += 1;
-                    }
+                    UpdateBrieItemQuality(t);
                 }
             }
         }
