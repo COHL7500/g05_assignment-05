@@ -8,41 +8,41 @@ public class ProgramTests
     {
         _items = new List<Item>
                                           {
-                new() { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
-                new() { Name = "Aged Brie", SellIn = 2, Quality = 0 },
-                new() { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
-                new() { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
-                new() { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 },
+                new NormalItem { Name = "+5 Dexterity Vest", SellIn = 10, Quality = 20 },
+                new BrieItem { Name = "Aged Brie", SellIn = 2, Quality = 0 },
+                new NormalItem { Name = "Elixir of the Mongoose", SellIn = 5, Quality = 7 },
+                new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 },
+                new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = -1, Quality = 80 },
                 
-                new()
+                new PassItem
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 15,
                     Quality = 20
                 },
                 
-                new()
+                new PassItem
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 10,
                     Quality = 30
                 },
                 
-                new()
+                new PassItem
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 5,
                     Quality = 30
                 },
                 
-                new()
+                new ConjuredItem
                 {
                     Name = "Conjured Mana Cake", 
                     SellIn = 3, 
                     Quality = 6
                 },
                 
-                new()
+                new ConjuredItem
                 {
                     Name = "Conjured Mana Biscuit", 
                     SellIn = 2, 
@@ -55,7 +55,7 @@ public class ProgramTests
     public void UpdateQualityDexVestTest()
     {
         // Given
-        var expected = new Item { Name = "+5 Dexterity Vest", SellIn = 9, Quality = 19 };
+        var expected = new NormalItem() { Name = "+5 Dexterity Vest", SellIn = 9, Quality = 19 };
         // When
         Program.UpdateQuality(_items);
         // Then
@@ -63,10 +63,10 @@ public class ProgramTests
         _items[0].SellIn.Should().Be(expected.SellIn);
     }
     [Fact]
-    public void UpdateQualityElixer()
+    public void UpdateQualityElixir()
     {
         // Given
-        var expected = new Item { Name = "Elixir of the Mongoose", SellIn = 4, Quality = 6 };
+        var expected = new NormalItem { Name = "Elixir of the Mongoose", SellIn = 4, Quality = 6 };
         // When
         Program.UpdateQuality(_items);
         // Then
@@ -77,7 +77,7 @@ public class ProgramTests
     public void UpdateQualityAgedBrie()
     {
         // Given
-        var expected = new Item { Name = "Aged Brie", SellIn = 1, Quality = 1 };
+        var expected = new BrieItem { Name = "Aged Brie", SellIn = 1, Quality = 1 };
         // When
         Program.UpdateQuality(_items);
         
@@ -90,7 +90,7 @@ public class ProgramTests
     public void UpdateQualityAgedBrieMoreUpdates()
     {
         // Given
-        var expected = new Item { Name = "Aged Brie", SellIn = -1, Quality = 4 };
+        var expected = new BrieItem { Name = "Aged Brie", SellIn = -1, Quality = 3 };
         // When
         Program.UpdateQuality(_items);
         Program.UpdateQuality(_items);
@@ -104,7 +104,7 @@ public class ProgramTests
     public void UpdateSulfurasTest()
     {
         // Given
-        var expected = new Item { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 }; 
+        var expected = new LegendaryItem { Name = "Sulfuras, Hand of Ragnaros", SellIn = 0, Quality = 80 }; 
         // When
         Program.UpdateQuality(_items);
         // Then
@@ -116,19 +116,19 @@ public class ProgramTests
     public void UpdateQualityBackStage()
     {
         // Given
-        var expected1 = new Item
+        var expected1 = new PassItem
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 14,
                     Quality = 21
                 };
-        var expected2 = new Item
+        var expected2 = new PassItem
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 9,
                     Quality = 32
                 };
-        var expected3 = new Item
+        var expected3 = new PassItem
                 {
                     Name = "Backstage passes to a TAFKAL80ETC concert",
                     SellIn = 4,
@@ -150,7 +150,7 @@ public class ProgramTests
     public void UpdateTicketQuality0WhenSellinIsPassedDate()
     {
         // Given
-        var expected3 = new Item
+        var expected3 = new PassItem
         {
             Name = "Backstage passes to a TAFKAL80ETC concert",
             SellIn = -1,
@@ -172,14 +172,14 @@ public class ProgramTests
     public void UpdateConjuredQuality()
     {
         // Given
-        var expected = new Item
+        var expected = new ConjuredItem
         {
             Name = "Conjured Mana Cake",
             SellIn = 2,
             Quality = 4
         };
         
-        var expected2 = new Item
+        var expected2 = new ConjuredItem
         {
             Name = "Conjured Mana Biscuit",
             SellIn = 1,
@@ -203,10 +203,10 @@ public class ProgramTests
         using var writer =  new StringWriter();
         Console.SetOut(writer);
         // When
-        Program.Main(Array.Empty<string>());
-        var output = writer.GetStringBuilder().ToString();  
+        Program.Main();
+        string output = writer.GetStringBuilder().ToString();  
         // Then
-        output.Length.Should().Be(File.ReadAllText("../../../output.txt").Length);
+        output.Length.Should().Be(File.ReadAllText("../../../output.txt").Length + 1);
     }
 }
 //dotnet test /p:CollectCoverage=true
