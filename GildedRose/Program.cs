@@ -61,60 +61,14 @@
                 item.SellIn -= 1;
             }
         }
-
-        private static void UpdateNormalItemQuality(Item item)
-        {
-            if (item.Quality <= 0)
-            {
-                return;
-            }
-
-            if (item.Name.Contains("Conjured") && item.Quality > 1)
-            {
-                item.Quality -= 2;
-            }
-            else if (item.Name != "Sulfuras, Hand of Ragnaros")
-            {
-                item.Quality -= 1;
-            }
-        }
         
-        private static void UpdateBackstagePassItemQuality(Item item)
-        {
-            if (item.SellIn < 11)
-            {
-                if (item.Quality < 50)
-                {
-                    item.Quality += 1;
-                }
-            }
-
-            if (item.SellIn >= 6) return;
-            
-            if (item.Quality < 50)
-            {
-                item.Quality += 1;
-            }
-        }
-
-        private static void UpdateBrieItemQuality(Item item)
-        {
-            if (item.Quality < 50)
-            {
-                item.Quality += 1;
-            }
-        }
-
         public static void UpdateQuality(IEnumerable<Item> inItems)
         {
             foreach (var t in inItems)
             {
                 UpdateSellIn(t);
-
-                if (t.Quality <= 50)
-                {
-                    t.UpdateQuality();   
-                }
+                
+                    t.UpdateQuality();
             }
         }
         //Items = InItems;
@@ -207,21 +161,6 @@
                     Quality -= 2;
 
                     break;
-            }
-
-            if (SellIn >= 0)
-            {
-                return;
-            }
-
-            if (Quality > 3)
-            {
-                Quality -= 2;
-            }
-            
-            else
-            {
-                Quality -= Quality;
             }
         }
     }

@@ -55,13 +55,14 @@ public class ProgramTests
     public void UpdateQualityDexVestTest()
     {
         // Given
-        var expected = new NormalItem() { Name = "+5 Dexterity Vest", SellIn = 9, Quality = 19 };
+        var expected = new NormalItem { Name = "+5 Dexterity Vest", SellIn = 9, Quality = 19 };
         // When
         Program.UpdateQuality(_items);
         // Then
         _items[0].Quality.Should().Be(expected.Quality);
         _items[0].SellIn.Should().Be(expected.SellIn);
     }
+    
     [Fact]
     public void UpdateQualityElixir()
     {
@@ -91,15 +92,18 @@ public class ProgramTests
     {
         // Given
         var expected = new BrieItem { Name = "Aged Brie", SellIn = -1, Quality = 3 };
-        // When
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
         
+        // When
+        for (int i = 0; i < 3; i++)
+        {
+            Program.UpdateQuality(_items);
+        }
+
         // Then
         _items[1].Quality.Should().Be(expected.Quality);
         _items[1].SellIn.Should().Be(expected.SellIn);
     }
+    
     [Fact]
     public void UpdateSulfurasTest()
     {
@@ -157,12 +161,12 @@ public class ProgramTests
             Quality = 0
         };
         // When
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
-        Program.UpdateQuality(_items);
+
+        for (int i = 0; i < 6; i++)
+        {
+            Program.UpdateQuality(_items);
+        }
+        
         // Then
         _items[7].Quality.Should().Be(expected3.Quality);
         _items[7].SellIn.Should().Be(expected3.SellIn);   
