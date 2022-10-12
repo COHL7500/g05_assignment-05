@@ -75,6 +75,22 @@
 
     }
 
+    /*  JUSTIFICATION FOR CHANGING "ITEM" TO THE GOBLIN:
+     * 
+     * The "Item" class represents a highly abstract and generic definition of a particular item.
+     * If we narrow down the abstraction level, we would - in this scenario - have:
+     * NormalItem, LegendaryItem, BrieItem, ConjuredItem and PassItem.
+     * 
+     * Each categorization of item possesses an unique set of rules, though all with identical attributes:
+     * Name, SellIn, Quality and a method for updating quality.
+     * 
+     * If we make small classes for each category of item, we can easily distinguish between these items!
+     * Furthermore, we can also easily add new categories later, as "Item" is now abstract.
+     *
+     * Worth mentioning, this could also be done with an:
+     * - Item Factory: Another obvious solution. 
+     * - Wrapper for Item: We could prevent touching item altogether then.
+     */
     public abstract class Item
     {
         public string Name { get; set; } = null!;
