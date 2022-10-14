@@ -141,9 +141,9 @@ public class ProgramTests
         Console.SetOut(writer);
         // When
         Program.Main();
-        string output = writer.GetStringBuilder().ToString();  
+        string output = writer.GetStringBuilder().ToString().TrimEnd();  
         // Then
-        output.Length.Should().Be(File.ReadAllText("../../../output.txt").Length + 1);
+        output.Should().BeEquivalentTo(File.ReadAllText("../../../output.txt"));
     }
 }
 //dotnet test /p:CollectCoverage=true
